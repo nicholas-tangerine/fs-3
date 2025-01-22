@@ -4,7 +4,8 @@
  */
 
 #include "mbed.h"
-
+#include "drivers/BT817/address_mapping.h"
+#include "drivers/BT817/dl_commands.h"
 
 int main()
 {
