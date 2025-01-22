@@ -7,3 +7,6 @@
 [submodule "BMS/lib-mbed-ltc681x"]
 	path = BMS/lib-mbed-ltc681x
 	url = https://github.com/formulaslug/lib-mbed-ltc681x.git
+[submodule "Dash/dash/mbed-os"]
+	path = Dash/dash/mbed-os
+	url = https://github.com/ARMmbed/mbed-os
