@@ -7,3 +7,7 @@
 [submodule "BMS/lib-mbed-ltc681x"]
 	path = BMS/lib-mbed-ltc681x
 	url = https://github.com/formulaslug/lib-mbed-ltc681x.git
+[submodule "Dash/mbed-os"]
+	path = Dash/mbed-os
+	url = https://github.com/mbed-ce/mbed-os.git
+	shallow = true
