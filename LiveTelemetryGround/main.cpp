@@ -15,7 +15,8 @@ int main()
 {
     radio_serial.set_baud(9600);
     radio_serial.set_format(8, BufferedSerial::None, 1);
-    radio_serial.set_flow_control(BufferedSerial::RTSCTS, PA_12, PA_11); // (PB_1, PB_4);
+    // radio_serial.set_flow_control(BufferedSerial::RTSCTS, PA_12, PA_11);
+    radio_serial.set_flow_control(BufferedSerial::RTSCTS, D6, D12);
     usb_serial.set_baud(9600);
     usb_serial.set_format(8, BufferedSerial::None, 1);
 
