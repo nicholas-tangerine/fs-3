@@ -7,7 +7,7 @@
 
 #define BUF_SIZE 1000
 
-static BufferedSerial radio_serial(PA_9, PA_10);
+static BufferedSerial radio_serial(PA_2, PA_3);
 static BufferedSerial usb_serial(USBTX, USBRX);
 static DigitalOut led(LED1);
 
@@ -15,8 +15,7 @@ int main()
 {
     radio_serial.set_baud(9600);
     radio_serial.set_format(8, BufferedSerial::None, 1);
-    // radio_serial.set_flow_control(BufferedSerial::RTSCTS, PA_12, PA_11);
-    radio_serial.set_flow_control(BufferedSerial::RTSCTS, D6, D12);
+    // radio_serial.set_flow_control(BufferedSerial::RTSCTS, PA_1, PA_0);
     usb_serial.set_baud(9600);
     usb_serial.set_format(8, BufferedSerial::None, 1);
 
