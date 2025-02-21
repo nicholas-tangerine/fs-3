@@ -13,6 +13,18 @@ void ETCController::updatePedalTravel() {
     /* Implausability check here*/
 
     /* update relevant values */
+
+    float VOLT_SCALE_he2 = 0.5f;
+
+    float he2_voltage = (HE2.read() * MAX_V)/VOLT_SCALE_he2;
+
+    /* convert sensor voltages into travel percentages*/
+    float he2_travel_percent = (he2_voltage - 0.5f) / 4.f;
+
+    state.he2_read = HE2.read() * MAX_V;
+    state.he2_travel = he2_travel_percent;
+    state.pedal_travel = he2_travel_percent;
+    state.torque_demand = static_cast<int16_t>(static_cast<float>(MAX_TORQUE) * state.pedal_travel);
 }
 
 void ETCController::updateMBBAlive() {
@@ -24,15 +36,23 @@ void ETCController::updateStateFromCAN(const ETCState& new_state) { state = new_
 
 // TODO make function : )
 void ETCController::checkStartConditions() {
-    /* this function is already set up to run when the cockpit is switched on */
-
-    /* Check that the brake is pressed and also that TS_rdy is true */
-
-    /* if all that is happening switch motor_on to true */
+    //No brake check
+        if ( state.ts_ready ) {
+            state.motor_enabled = true;
+        }
 }
 
 // TODO make function :)
-void ETCController::runRTDS() { /* Run RTDS for 3 seconds */ }
+void ETCController::runRTDS() {
+    /* Run RTDS for 3 seconds */
+    RTDS.write(true);
+    RTDS_Timer.attach(callback([this](){this->stopRTDS();}), 1s);
+}
+
+void ETCController::stopRTDS() {
+    RTDS.write(false);
+    RTDS_Timer.detach();
+}
 
 void ETCController::resetState() {
     state.mbb_alive = 0;

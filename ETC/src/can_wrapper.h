@@ -18,7 +18,7 @@ class CANWrapper : public Module {
     EventFlags& Global_Events;
     ETCController& etc;
     Ticker throttleTicker;
-    // Ticker syncTicker;
+    Ticker syncTicker;
     // Ticker stateTicker;
 
     const int32_t CAN_FREQ = 500000;
@@ -49,18 +49,18 @@ public:
                                   // 100ms
                                   Global_Events.set(THROTTLE_FLAG);
                               }),
-                              1s);
-        //
-        // syncTicker.attach(callback([this]() {
-        //     Global_Events.set(THROTTLE_FLAG);
-        //     }), 100ms);
-        //
+                              100ms);
+
+        syncTicker.attach(callback([this]() {
+            Global_Events.set(THROTTLE_FLAG);
+            }), 100ms);
+
         // stateTicker.attach(callback([this]() {
         //     Global_Events.set(THROTTLE_FLAG);
         //     }), 100ms);
 
         /* Set up CAN RX ISR */
-        mainBus->attach(callback([this]() { Global_Events.set(RX_FLAG); }));
+        //mainBus->attach(callback([this]() { Global_Events.set(RX_FLAG); }));
         motorBus->attach(callback([this]() { Global_Events.set(RX_FLAG); }));
     }
 
@@ -89,14 +89,14 @@ public:
         throttleMessage.data[6] = 0x00;
         throttleMessage.data[7] = 0x00;
 
-        // motorBus->write(throttleMessage);
+        motorBus->write(throttleMessage);
         printf("Sending Throttle...");
     }
 
     void sendSync() {
         unsigned char data[0];
         CANMessage syncMessage(0x80, data, 0);
-        // send syncMessage
+        motorBus->write(syncMessage);
     }
 
     void sendState() {

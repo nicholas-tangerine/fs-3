@@ -32,6 +32,8 @@ class ETCController {
     InterruptIn Reverse;
     DigitalOut RTDS;
 
+    Ticker RTDS_Timer;
+
     // Constants
     const int16_t MAX_SPEED = 7500;
     const int16_t MAX_TORQUE = 30000;
@@ -90,9 +92,14 @@ public:
     void checkStartConditions();
 
     /**
-     *  Runs RTDS for 3 seconds
+     *  Runs RTDS for 1 seconds
      */
     void runRTDS();
+
+    /**
+     *  stops RTDS
+     */
+    void stopRTDS();
 
     // Accessors
     [[nodiscard]] uint8_t getMBBAlive() const { return state.mbb_alive; }
